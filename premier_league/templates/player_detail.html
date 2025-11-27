@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ object.first_name }} {{ object.last_name }}
+{% endblock title %}
+
+{% block contents %}
+    <div class='d-flex align-items-center justify-content-evenly'>
+        <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/{{object.code}}.png" class="player-detail-pic" alt='' onerror="this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png'">
+        <table class='team-info'>
+          <tr>
+              <th>氏名</th>
+              <td>{{ object.first_name }} {{ object.last_name }}</td>
+          </tr>
+          <tr>
+              <th>チーム名</th>
+              <td>{{object.team_id.name}}</td>
+          </tr>
+          <tr>
+              <th>ポジション</th>
+              <td>{{object.position}}</td>
+          </tr>
+        </table>
+    </div>
+    <div>
+        <table class='d-flex justify-content-around player-detail-table'>
+            <tr>
+                <th class='text-center'>遊んだ分間</th>
+                <th class='text-center'>イエローカード</th>
+                <th class='text-center'>レッドカード</th>
+                {% if object.position == 'キーパー' %}
+                    <th class='text-center'>クリーンシート</th>
+                    <th class='text-center'>セーブ</th>
+                    <th class='text-center'>失点</th>
+                    <th class='text-center'>ペナルティーセーブ</th>
+                    {% if object.goal_scored %}
+                        <th class='text-center'>得点</th>
+                    {% endif %}
+                    {% if object.own_goal_scored %}
+                        <th class='text-center'>オウンゴール</th>
+                    {% endif %}
+                    {% if object.assists %}
+                        <th class='text-center'>アシスト</th>
+                    {% endif %}
+                {% elif object.position == 'ディフェンダー' %}
+                    <th class='text-center'>クリーンシート</th>
+                    <th class='text-center'>失点</th>
+                    <th class='text-center'>得点</th>
+                    {% if object.own_goal_scored %}
+                        <th class='text-center'>オウンゴール</th>
+                    {% endif %}
+                    <th class='text-center'>アシスト</th>
+                {% else %}
+                    <th class='text-center'>得点</th>
+                    {% if object.own_goal_scored %}
+                        <th class='text-center'>オウンゴール</th>
+                    {% endif %}
+                    <th class='text-center'>アシスト</th>
+                {% endif %}
+          </tr>
+          <tr>
+              <td class='border-0'>{{object.minutes_played}}</td>
+              <td class='border-0'>{{object.yellow_cards}}</td>
+              <td class='border-0'>{{object.red_cards}}</td>
+              {% if object.position == 'キーパー' %}
+                    <th class='text-center'>{{object.cleansheets}}</th>
+                    <th class='text-center'>{{object.saves}}</th>
+                    <th class='text-center'>{{object.goal_conceded}}</th>
+                    <th class='text-center'>{{object.penalties_saved}}</th>
+                    {% if object.goal_scored %}
+                        <th class='text-center'>{{object.goal_scored}}</th>
+                    {% endif %}
+                    {% if object.own_goal_scored %}
+                        <th class='text-center'>{{object.own_goal_scored}}</th>
+                    {% endif %}
+                    {% if object.assists %}
+                        <th class='text-center'>{{object.assists}}</th>
+                    {% endif %}
+                {% elif object.position == 'ディフェンダー' %}
+                    <th class='text-center'>{{object.cleansheets}}</th>
+                    <th class='text-center'>{{object.goal_conceded}}</th>
+                    <th class='text-center'>{{object.goal_scored}}</th>
+                    {% if object.own_goal_scored %}
+                        <th class='text-center'>{{object.own_goal_scored}}</th>
+                    {% endif %}
+                    <th class='text-center'>{{object.assists}}</th>
+                {% else %}
+                    <th class='text-center'>{{object.goal_scored}}</th>
+                    {% if object.own_goal_scored %}
+                        <th class='text-center'>{{object.own_goal_scored}}</th>
+                    {% endif %}
+                    <th class='text-center'>{{object.assists}}</th>
+                {% endif %}
+          </tr>
+        </table>
+    </div>
+{% endblock contents %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Players
+{% endblock title %}
+
+{% block contents %}
+    <div class="row row-cols-1 row-cols-md-6 g-4 m-0">
+        {% for player in object_list %}
+            <div class="col">
+                <div class="card h-100">
+                    <a href="{% url 'premier_league:player-detail' player.pk %}">
+                        <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/{{player.code}}.png" class="teams-logo" alt='' onerror="this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png'">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ player.first_name }} {{ player.last_name }}</h5>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <ul class="pagination d-flex justify-content-between mt-4 mx-4">
+        {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            </li>
+        {% else %}
+            <li class="page-item">
+                <a class="page-link disabled">Previous</a>
+            </li>
+        {% endif %}
+        <li class="page-item active">
+            <a class="page-link">Page {{ page_obj.number }}</a>
+        </li>
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+            </li>
+        {% else %}
+            <li class="page-item">
+                <a class="page-link disabled">Next</a>
+            </li>
+        {% endif %}
+    </ul>
+{% endblock contents %}

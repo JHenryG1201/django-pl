@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Fixtures
+{% endblock title %}
+
+{% block contents %}
+    <ul class="pagination d-flex justify-content-between mt-4 mx-4">
+        {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            </li>
+        {% else %}
+            <li class="page-item">
+                <a class="page-link disabled">Previous</a>
+            </li>
+        {% endif %}
+        <li class="page-item active">
+            <a class="page-link">Gameweek {{ page_obj.number }}</a>
+        </li>
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+            </li>
+        {% else %}
+            <li class="page-item">
+                <a class="page-link disabled">Next</a>
+            </li>
+        {% endif %}
+    </ul>
+    <div class="row row-cols-1 row-cols-md-1 g-4 m-0 px-4">
+        {% for fixture in object_list %}
+            <div class="card">
+                <div class='flex-row d-flex w-100 align-items-center justify-content-evenly ps-4 pe-4 pt-4 mt-0'>
+                    <a class='logo-button' style='width:100px' href='{% url "premier_league:team-detail" fixture.team1_id.pk %}'>
+                        <img src="https://resources.premierleague.com/premierleague25/badges/{{fixture.team1_id.code}}.svg" class="fixture-teams-logo" alt='hi'>
+                        <p class='mt-2 mb-0 fs-6'>{{ fixture.team1_id.name }}</p>
+                    </a>
+                    {% if fixture.finished %}
+                        <p class='fs-1'>{{ fixture.team1_score }}</p>
+                    {% else %}
+                        <p class='fs-1'>-</p>
+                    {% endif %}
+                    <p class='fs-1 m-8'>:</p>
+                    {% if fixture.finished %}
+                        <p class='fs-1'>{{ fixture.team2_score }}</p>
+                    {% else %}
+                        <p class='fs-1'>-</p>
+                    {% endif %}
+                    <a class='logo-button' style='width:100px' href='{% url "premier_league:team-detail" fixture.team2_id.pk %}'>
+                        <img src="https://resources.premierleague.com/premierleague25/badges/{{fixture.team2_id.code}}.svg" class="fixture-teams-logo" alt=''>
+                        <p class='mt-2 mb-0 fs-6'>{{ fixture.team2_id.name }}</p>
+                    </a>
+                </div>
+                {% if not fixture.finished %}
+                    <a 
+                        style='
+                            margin-bottom: 15px;
+                            border: gray 3px solid;
+                            text-decoration: none;
+                            color: black;
+                            padding: 15px;
+                            border-radius: 10%;
+                        }' 
+                        href="{% url 'premier_league:fixture-detail' fixture.id %}">
+                        推測
+                    </a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock contents %}

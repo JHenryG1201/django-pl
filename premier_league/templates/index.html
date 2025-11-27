@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Home Page
+{% endblock title %}
+    
+{% block contents %}
+<div class='row justify-content-center'>
+   <div class='row table-div'>
+      <p class='text-center fw-bold fs-4'>テーブル</p>
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="text-center">位置</th>
+            <th class="text-center">チーム</th>
+            <th class="text-center">試合</th>
+            <th class="text-center">勝</th>
+            <th class="text-center">分</th>
+            <th class="text-center">負</th>
+            <th class="text-center">得点</th>
+            <th class="text-center">失点</th>
+            <th class="text-center">差</th>
+            <th class="text-center">勝点</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for team in object_list.teams %}
+            <tbody class="text-center">
+               <tr>
+                  <td class="number">{{ team.rank }} <i class="fa fa-caret-up" aria-hidden="true"></i></td>
+                  <td class="text-left">
+                     <div class="club-badge-div">
+                        <a href={% url 'premier_league:team-detail' team.pk %}>
+                           <img src="https://resources.premierleague.com/premierleague25/badges/{{team.code}}.svg" class='club-badge' alt={{ team.name }}>
+                        </a>
+                        <span> {{ team.name }}</span>
+                     </div>
+                  </td>
+                  <td>{{ team.match_played }}</td>
+                  <td>{{ team.win_count }}</td>
+                  <td>{{ team.draw_count }}</td>
+                  <td>{{ team.lose_count }}</td>
+                  <td>{{ team.goal_scored }}</td>
+                  <td>{{ team.goal_conceded }}</td>
+                  {% if team.goal_difference > 0 %}
+                      <td>+{{ team.goal_difference}}</td>
+                  {% else %}
+                      <td>{{ team.goal_difference}}</td>
+                  {% endif %}
+                  <td>{{ team.point }}</td>
+               </tr>
+             </tbody>
+             {% endfor %}
+        </tbody>
+      </table>
+   </div>
+   <div class='row next-fix-div'>
+      <p class='text-center fw-bold fs-4 mb-0'>来週の試合</p>
+      {% for fixture in object_list.next_fixture_list %}
+      
+         <div class='align-content-center border border-1 mb-2'>
+            <div class='d-flex align-items-center'>
+               <a style='width:40px' href={% url 'premier_league:team-detail' fixture.team1_id.pk %}>
+                  <img src="https://resources.premierleague.com/premierleague25/badges/{{fixture.team1_id.code}}.svg" class='next-fix-club' alt={{ team.name }}>
+               </a>
+               <p class='mb-0'>{{ fixture.team1_id.name }}</p>
+            </div>
+            <div class='d-flex align-items-center mt-2'>
+               <a style='width:40px' href={% url 'premier_league:team-detail' fixture.team2_id.pk %}>
+                  <img src="https://resources.premierleague.com/premierleague25/badges/{{fixture.team2_id.code}}.svg" class='next-fix-club' alt={{ team.name }}>
+               </a>
+               <p class='mb-0'>{{ fixture.team2_id.name }}</p>
+            </div>
+         </div>
+      {% endfor %}
+   </div>
+</div>
+{% endblock contents %}

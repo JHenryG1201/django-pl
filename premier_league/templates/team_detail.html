@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ object.name }}
+{% endblock title %}
+
+{% block contents %}
+  <div class='d-flex align-items-center justify-content-evenly'>
+    <img class="logo" src="https://resources.premierleague.com/premierleague25/badges/{{object.code}}.svg" alt={{ object.name }}>
+    <table class='team-info'>
+      <tr>
+          <th>チーム名</th>
+          <td>{{object.name}}</td>
+      </tr>
+      <tr>
+          <th>略称</th>
+          <td>{{object.abbr}}</td>
+      </tr>
+      <tr>
+          <th>位置</th>
+          <td>{{object.rank}}</td>
+      </tr>
+    </table>
+    <table class='team-info'>
+      <tr>
+          <th>試合数</th>
+          <td>{{object.match_played}}</td>
+      </tr>
+      <tr>
+          <th>勝</th>
+          <td>{{object.win_count}}</td>
+      </tr>
+      <tr>
+          <th>分</th>
+          <td>{{object.draw_count}}</td>
+      </tr>
+      <tr>
+          <th>負</th>
+          <td>{{object.lose_count}}</td>
+      </tr>
+    </table>
+  </div>
+  <div class='d-flex'>
+    <div style='width:65%' class="border me-4">
+      <p class='fs-4 fw-bold text-center pt-4'>プレイヤーリスト</p>
+      <div class='table-responsive' style='max-height: 500px'>
+        <div>
+          {% for player in players %}
+            <div class="border p-4 m-4">
+              <a class="logo-button w-25" href="{% url 'premier_league:player-detail' player.pk %}">
+                <img src="https://resources.premierleague.com/premierleague25/photos/players/110x140/{{player.code}}.png" class="player-pic" alt='' onerror="this.src='https://resources.premierleague.com/premierleague25/photos/players/110x140/placeholder.png'">
+              </a>
+              <h6 class="d-inline-block w-50 ps-4">{{ player.first_name }} {{ player.last_name }}</h6>
+              <h6 class="d-inline-block">{{ player.position }}</h6>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div class='border' style='width:35%'>
+      <p class='fs-4 fw-bold text-center pt-4'>試合リスト</p>
+      <div class='table-responsive' style='max-height: 500px'>
+      <div>
+        {% for fixture in fixtures %}
+          <div class="border m-4 p-4 d-flex align-items-center justify-content-center">
+            <a class='logo-button' href=''>
+              <img src="https://resources.premierleague.com/premierleague25/badges/{{fixture.team1_id.code}}.svg" class="fixture-teams-logo-2" alt=''>
+              {% comment %} <p class='d-inline-block mt-2 mb-0 fs-6'>{{ fixture.team1_id.name }}</p> {% endcomment %}
+            </a>
+            {% if fixture.finished %}
+              <p class='d-inline-block fs-6 m-0'>{{ fixture.team1_score }}</p>
+            {% else %}
+              <p class='d-inline-block fs-6 m-0'>-</p>
+            {% endif %}
+            <p class='d-inline-block fs-6 my-0 mx-4'>:</p>
+            {% if fixture.finished %}
+              <p class='d-inline-block fs-6 m-0'>{{ fixture.team2_score }}</p>
+            {% else %}
+              <p class='d-inline-block fs-6 m-0'>-</p>
+            {% endif %}
+            <a class='logo-button' href=''>
+              <img src="https://resources.premierleague.com/premierleague25/badges/{{fixture.team2_id.code}}.svg" class="fixture-teams-logo-2" alt=''>
+              {% comment %} <p class='d-inline-block mt-2 mb-0 fs-6'>{{ fixture.team2_id.name }}</p> {% endcomment %}
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    </div>
+  </div>
+{% endblock contents %}
