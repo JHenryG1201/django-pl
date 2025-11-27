@@ -1,0 +1,57 @@
+.logo {
+    margin: 100px;
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+}
+
+.logo-button {
+    text-decoration: none;
+    margin: 30px;
+    text-align: center;
+    color: black;
+}
+
+.fixture-teams-logo {
+    width: 75px;
+    height: 75px;
+    object-fit: contain;
+}
+
+.fixture-teams-logo-2 {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.teams-logo {
+    margin-top: 20px;
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+}
+
+.player-pic {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
+
+.player-detail-pic {
+    margin: 50px;
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+}
+
+.card {
+    align-items: center;
+}
+
+.team-info tr td{
+    border: none;
+}
+
+.team-info {
+    display: inline;
+}
